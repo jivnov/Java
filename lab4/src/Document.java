@@ -1,36 +1,45 @@
+import java.util.*;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Document {
-    String title;
-    Photo photo;
-    List<Section> sections = new ArrayList<>();
+    String title = "";
+    Photo photo = new Photo("");
+    List<Section> sections = new ArrayList<Section>();
 
-    Document setTitle(String title){
+    Document(String title)
+    {
+        this.title = title;
+    }
+
+    Document setTitle(String title)
+    {
         this.title = title;
         return this;
     }
 
-    Document setPhoto(Photo photoUrl){ // String change to Photo
-        this.photo = photoUrl;
+    Document setPhoto(String url)
+    {
+        photo = new Photo(url);
         return this;
     }
 
-    Section addSection(String sectionTitle){
-
-        // utwórz sekcję o danym tytule i dodaj do sections
-        return ???;
+    Section addSection(String secTitle)
+    {
+        addSection(new Section(secTitle));
+        return sections.get(sections.size() - 1);
     }
 
-    Document addSection(Section s){
+    Document addSection(Section s)
+    {
+        sections.add(s);
         return this;
     }
 
-
-    void writeHTML(PrintStream out){
-    // zapisz niezbędne znaczniki HTML
-        // dodaj tytuł i obrazek
-        // dla każdej sekcji wywołaj section.writeHTML(out)
+    void writeHTML(PrintStream out)
+    {
+        out.printf("<h1>%s</h1>\n", title);
+        photo.writeHTML(out);
+        for (Section s : sections)
+            s.writeHTML(out);
     }
 }
